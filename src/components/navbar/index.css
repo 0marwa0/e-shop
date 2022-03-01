@@ -1,0 +1,18 @@
+.navbar-holder {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  padding: 30px;
+  height: 30px;
+  justify-content: space-between;
+}
+.tabs {
+  font-size: 23px;
+}
+.tabs span {
+  padding: 0 10px;
+  cursor: pointer;
+}
+.activeTab {
+  color: #5ece7b;
+  border-bottom: 2px solid #5ece7b;
+}
