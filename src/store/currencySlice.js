@@ -20,13 +20,13 @@ const currencySlice = createSlice({
   name: "currencies",
   initialState: {
     currencies: [],
-    current: "USD",
+    selectedCurrency: "$",
     loading: true,
   },
 
   reducers: {
     setCurrency(state, action) {
-      state.current = action.payload;
+      state.selectedCurrency = action.payload;
     },
   },
   extraReducers: {

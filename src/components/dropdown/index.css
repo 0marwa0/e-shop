@@ -1,7 +1,35 @@
-.model {
-  display: none;
-  background-color: white;
+.select-box--container {
+  height: 20px;
+  padding-top: 5px;
+}
+
+.select-box--box {
   width: 50px;
-  height: 169px;
-  box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19);
+}
+
+.select-box--selected-item {
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  padding: 4px 12px;
+  vertical-align: middle;
+}
+.select-box--items {
+  margin-top: 30px;
+  border: 1px solid rgb(219, 219, 219);
+  background-color: white;
+}
+.select-box--items div {
+  padding: 6px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.select-box--arrow {
+  width: 45px;
+  display: grid;
+  height: 0;
+  gap: 5px;
+  align-items: center;
+  grid-template-columns: 1fr 1fr;
 }

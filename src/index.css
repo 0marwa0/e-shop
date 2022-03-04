@@ -1,8 +1,9 @@
 * {
-  font-family: Raleway !important;
+  font-family: Raleway;
 }
-@font-face {
-  font-family: "Raleway";
-  font-weight: lighter;
-  src: local("Raleway"), url(./assetes/font/Raleway-Light.ttf) format("ttf");
-}
+/* *@font-face {
+  font-family: Raleway;
+
+  src: local("Raleway"),
+    url(./fonts/Raleway-Italic-VariableFont_wght.ttf) format("ttf");
+} */

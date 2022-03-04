@@ -1,31 +1,34 @@
 import React from "react";
 import { connect } from "react-redux";
 import { fetchProduct } from "../../store/productSlice";
+import { fetchCategory } from "../../store/categorySlice";
 import { addProduct, removeProduct } from "../../store/cartSlice";
-import { setCurrency } from "../../store/currencySlice";
+import { setCurrency, fetchCurrency } from "../../store/currencySlice";
 import ProductCard from "../../components/prorductCard";
 import "./index.css";
 class Products extends React.Component {
-  //  constructor(props) {
-  //   super(props);
-  //  }
-
+  state = {};
   componentDidMount() {
     this.props.getCategories();
+    this.props.getCategory();
+    this.props.getCurrency();
   }
 
   render() {
-    let categories = this.props.products.products["categories"] || [];
     let loading = this.props.products.loading;
-    this.add = (item) => {
-      this.dispatch(addProduct(item));
-    };
-    let products = this.props.category["category"].products || [];
+    // this.add = (item) => {
+    //   this.dispatch(addProduct(item));
+    // };
+    let products = this.props.category.category.products || [];
     return (
       <div>
+        <h1 className="product-title">Category Name </h1>
         <div className="cards-holder">
           {products.map((item) => (
-            <ProductCard product={item} />
+            <ProductCard
+              product={item}
+              selectedCurrency={this.props.currencies.selectedCurrency}
+            />
           ))}
         </div>
       </div>
@@ -35,8 +38,8 @@ class Products extends React.Component {
 const data = function (state) {
   return {
     products: state.products,
-    currencies: state.currencies,
     category: state.category,
+    currencies: state.currencies,
     cart: state.cart,
   };
 };
@@ -44,7 +47,8 @@ const data = function (state) {
 const dispatch = (dispatch) => {
   return {
     getCategories: () => dispatch(fetchProduct()),
-    setCurrentCurrency: (data) => dispatch(setCurrency(data)),
+    getCurrency: () => dispatch(fetchCurrency()),
+    getCategory: () => dispatch(fetchCategory()),
   };
 };
 

@@ -3,18 +3,7 @@
 }
 .flex {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  text-align: center;
-  width: max-content;
 }
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+Link {
+  list-style: none !important;
 }

@@ -7,8 +7,16 @@ const query = `
     products{
       id
       name
+      gallery
+      prices{
+        currency{
+          symbol
+          label
+        }
+        amount
+      }
     }
-  }
+ }
 }
 `;
 export const fetchCategory = createAsyncThunk(
@@ -16,7 +24,7 @@ export const fetchCategory = createAsyncThunk(
   async () => {
     return await axios
       .post("http://localhost:4000/", { query: query })
-      .then((res) => res.data.data);
+      .then((res) => res.data.data.category);
   }
 );
 const CategorySlice = createSlice({
@@ -29,6 +37,7 @@ const CategorySlice = createSlice({
   reducers: {
     setCategory(state, action) {
       state.category = action.payload;
+      state.data = action.payload;
     },
   },
   extraReducers: {

@@ -1,4 +1,12 @@
 .cards-holder {
   display: grid;
+  align-items: center;
+  justify-content: center;
+
   grid-template-columns: repeat(3, 444px);
+}
+.product-title {
+  padding: 30px 0;
+  font-family: Raleway;
+  font-weight: 300;
 }

@@ -8,39 +8,31 @@ import { setCategory, fetchCategory } from "../../store/categorySlice";
 import "./index.css";
 import "../../App.css";
 class Navbar extends React.Component {
-  state = {
-    defaultCategory: this.props.category.category || [],
-  };
   componentDidMount() {
     this.props.getCategories();
     this.props.getCategory();
-    this.props.setCategory(this.state.defaultCategory);
   }
   render() {
     let categories = this.props.products.products["categories"] || [];
-    let currentCatName = this.props.category.category["category"] || "";
-    console.log(currentCatName["name"]);
-
+    console.log(this.props.category.category.name);
+    let categoryName = this.props.category.category.name;
     return (
       <div className="navbar-holder">
         <span className="tabs">
           {categories.map((category) => (
             <span
-              onClick={() => this.props.setCategory(category)}
-              className={
-                currentCatName.name === category.name ? "activeTab" : ""
-              }
+              onClick={() => this.props.changeCategory(category)}
+              className={categoryName === category.name ? "activeTab" : ""}
             >
-              {/* {currentCatName} */}
               {category.name}
             </span>
           ))}
         </span>
-        <img src={Logo} />
+        <img src={Logo} alt="product" />
         <div className="flex">
           <DropDown />
-          <span>$</span>
-          <img src={Cart} />
+
+          <img src={Cart} alt="product" />
         </div>
       </div>
     );
@@ -56,7 +48,7 @@ const data = function (state) {
 
 const dispatch = (dispatch) => {
   return {
-    setCategory: (data) => dispatch(setCategory(data)),
+    changeCategory: (data) => dispatch(setCategory(data)),
     getCategory: () => dispatch(fetchCategory()),
     getCategories: () => dispatch(fetchProduct()),
   };
