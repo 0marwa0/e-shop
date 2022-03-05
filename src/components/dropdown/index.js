@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { fetchCurrency, setCurrency } from "../../store/currencySlice";
-import { ReactComponent as DropIcon } from "../../assetes/Icons/dropIcon.svg";
+import dropIcon from "../../assetes/Icons/dropIcon.svg";
 import "./index.css";
 class DropDown extends React.Component {
   state = {
@@ -22,6 +22,7 @@ class DropDown extends React.Component {
       showItems: false,
       selectedCurrency: item,
     });
+    this.props.getCurrencies();
   };
   componentDidMount() {
     this.props.getCurrencies();
@@ -31,7 +32,8 @@ class DropDown extends React.Component {
       <div className="select-box--box">
         <div className="select-box--container">
           <div className="select-box--arrow" onClick={this.dropDown}>
-            {this.state.selectedCurrency} <DropIcon />
+            {this.state.selectedCurrency}{" "}
+            <img src={dropIcon} alt="icon" height="6px" />
           </div>
 
           <div

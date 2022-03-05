@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 const query = `
 {
-  category{
+  categories{
     name
     products{
       id
@@ -16,28 +16,29 @@ const query = `
         amount
       }
     }
- }
+  }
 }
+
 `;
 export const fetchCategory = createAsyncThunk(
   "productStore/fetchCategory",
   async () => {
     return await axios
       .post("http://localhost:4000/", { query: query })
-      .then((res) => res.data.data.category);
+      .then((res) => res.data.data);
   }
 );
-const CategorySlice = createSlice({
+const CategorisSlice = createSlice({
   name: "Category",
   initialState: {
-    category: [],
+    categories: [],
+    currentCategory: [],
     loading: true,
   },
 
   reducers: {
     setCategory(state, action) {
-      state.category = action.payload;
-      state.data = action.payload;
+      state.currentCategory = action.payload;
     },
   },
   extraReducers: {
@@ -45,10 +46,11 @@ const CategorySlice = createSlice({
       state.loading = true;
     },
     [fetchCategory.fulfilled](state, action) {
-      state.category = action.payload;
+      state.categories = action.payload.categories;
+      state.currentCategory = action.payload.categories[0];
       state.loading = false;
     },
   },
 });
-export const { setCategory } = CategorySlice.actions;
-export default CategorySlice.reducer;
+export const { setCategory } = CategorisSlice.actions;
+export default CategorisSlice.reducer;

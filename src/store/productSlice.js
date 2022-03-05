@@ -1,13 +1,22 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axios from "axios";
 const query = `
 {
-  categories{
+  category{
     name
+  
     products{
       id
-      name
+      name  
+      brand
       gallery
+       description
+      attributes{
+        name
+        items{
+          value
+        }
+      }
       prices{
         currency{
           symbol
@@ -22,17 +31,19 @@ const query = `
 `;
 export const fetchProduct = createAsyncThunk(
   "productStore/fetchProdcut",
-  async () => {
+  async (id) => {
     return await axios
       .post("http://localhost:4000/", { query: query })
-      .then((res) => res.data.data);
+      .then(
+        (res) =>
+          res.data.data.category.products.filter((item) => item.id === id)[0]
+      );
   }
 );
 const prodcutSlice = createSlice({
   name: "products",
   initialState: {
-    products: [],
-    loading: true,
+    product: {},
   },
 
   extraReducers: {
@@ -40,10 +51,10 @@ const prodcutSlice = createSlice({
       state.loading = true;
     },
     [fetchProduct.fulfilled](state, action) {
-      state.products = action.payload;
+      state.product = action.payload;
       state.loading = false;
     },
   },
 });
-export const { getCurrentCurrency } = prodcutSlice.actions;
+export const { getProductById } = prodcutSlice.actions;
 export default prodcutSlice.reducer;

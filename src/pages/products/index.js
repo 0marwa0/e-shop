@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { fetchProduct } from "../../store/productSlice";
-import { fetchCategory } from "../../store/categorySlice";
+import { fetchCategory } from "../../store/categoriesSlice";
 import { addProduct, removeProduct } from "../../store/cartSlice";
 import { setCurrency, fetchCurrency } from "../../store/currencySlice";
 import ProductCard from "../../components/prorductCard";
@@ -10,16 +10,15 @@ class Products extends React.Component {
   state = {};
   componentDidMount() {
     this.props.getCategories();
-    this.props.getCategory();
     this.props.getCurrency();
   }
 
   render() {
-    let loading = this.props.products.loading;
+    console.log(this.props, "leeeeeeeeets");
     // this.add = (item) => {
     //   this.dispatch(addProduct(item));
     // };
-    let products = this.props.category.category.products || [];
+    let products = this.props.products.products || [];
     return (
       <div>
         <h1 className="product-title">Category Name </h1>
@@ -37,8 +36,7 @@ class Products extends React.Component {
 }
 const data = function (state) {
   return {
-    products: state.products,
-    category: state.category,
+    products: state.categories.currentCategory,
     currencies: state.currencies,
     cart: state.cart,
   };
@@ -46,9 +44,8 @@ const data = function (state) {
 
 const dispatch = (dispatch) => {
   return {
-    getCategories: () => dispatch(fetchProduct()),
+    getCategories: () => dispatch(fetchCategory()),
     getCurrency: () => dispatch(fetchCurrency()),
-    getCategory: () => dispatch(fetchCategory()),
   };
 };
 

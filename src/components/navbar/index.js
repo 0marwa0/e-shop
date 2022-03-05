@@ -3,36 +3,51 @@ import Logo from "../../assetes/Icons/cart-logo.svg";
 import Cart from "../../assetes/Icons/cart.svg";
 import DropDown from "../dropdown";
 import { connect } from "react-redux";
-import { fetchProduct } from "../../store/productSlice";
-import { setCategory, fetchCategory } from "../../store/categorySlice";
+
+import { setCategory, fetchCategory } from "../../store/categoriesSlice";
 import "./index.css";
 import "../../App.css";
+import PopupModal from "../dropdown/Model";
 class Navbar extends React.Component {
+  state = {
+    currentCategory: this.props.currentCategory.name || "all",
+  };
   componentDidMount() {
     this.props.getCategories();
-    this.props.getCategory();
   }
+  updateCategory = (category) => {
+    this.props.changeCategory(category);
+    this.setState(() => ({
+      currentCategory: category.name,
+    }));
+    console.log(this.props.history);
+  };
   render() {
-    let categories = this.props.products.products["categories"] || [];
-    console.log(this.props.category.category.name);
-    let categoryName = this.props.category.category.name;
+    let categories = this.props.categories || [];
     return (
       <div className="navbar-holder">
         <span className="tabs">
-          {categories.map((category) => (
+          {categories.map((category, i) => (
             <span
-              onClick={() => this.props.changeCategory(category)}
-              className={categoryName === category.name ? "activeTab" : ""}
+              key={i}
+              onClick={() => this.updateCategory(category)}
+              className={
+                this.state.currentCategory === category.name ? "activeTab" : ""
+              }
             >
               {category.name}
             </span>
           ))}
         </span>
-        <img src={Logo} alt="product" />
+        <img src={Logo} alt="logo" />
         <div className="flex">
           <DropDown />
-
-          <img src={Cart} alt="product" />
+          <PopupModal />
+          <div className="cart">
+            <img src={Cart} alt="cart" height="25px" />
+            <div className="cartItem">2</div>
+          </div>
+          .
         </div>
       </div>
     );
@@ -40,8 +55,8 @@ class Navbar extends React.Component {
 }
 const data = function (state) {
   return {
-    products: state.products,
-    category: state.category,
+    categories: state.categories.categories,
+    currentCategory: state.categories.currentCategory,
     cart: state.cart,
   };
 };
@@ -49,8 +64,7 @@ const data = function (state) {
 const dispatch = (dispatch) => {
   return {
     changeCategory: (data) => dispatch(setCategory(data)),
-    getCategory: () => dispatch(fetchCategory()),
-    getCategories: () => dispatch(fetchProduct()),
+    getCategories: () => dispatch(fetchCategory()),
   };
 };
 

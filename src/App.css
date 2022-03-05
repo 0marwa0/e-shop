@@ -4,6 +4,7 @@
 .flex {
   display: flex;
 }
-Link {
-  list-style: none !important;
+a {
+  text-decoration: none;
+  color: unset;
 }
