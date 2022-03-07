@@ -7,7 +7,7 @@
   padding: 16px;
   margin: 10px 0;
   background: #ffffff;
-  position: relative;
+  /* position: relative; */
 }
 .card-holder:hover {
   box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19);
@@ -24,12 +24,13 @@
 }
 .cartIcon {
   width: 52px;
-  position: absolute;
+  /* position: absolute; */
   height: 52px;
   background: #5ece7b;
   border-radius: 50%;
   display: flex;
   align-items: center;
-  right: 50px;
-  top: 75%;
+  /* right: 50px;
+  top: 75%; */
+  /* z-index: 1; */
 }

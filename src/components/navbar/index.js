@@ -3,11 +3,10 @@ import Logo from "../../assetes/Icons/cart-logo.svg";
 import Cart from "../../assetes/Icons/cart.svg";
 import DropDown from "../dropdown";
 import { connect } from "react-redux";
-
+import CartModal from "../dropdown/CartModal";
 import { setCategory, fetchCategory } from "../../store/categoriesSlice";
 import "./index.css";
 import "../../App.css";
-import PopupModal from "../dropdown/Model";
 class Navbar extends React.Component {
   state = {
     currentCategory: this.props.currentCategory.name || "all",
@@ -42,12 +41,7 @@ class Navbar extends React.Component {
         <img src={Logo} alt="logo" />
         <div className="flex">
           <DropDown />
-          <PopupModal />
-          <div className="cart">
-            <img src={Cart} alt="cart" height="25px" />
-            <div className="cartItem">2</div>
-          </div>
-          .
+          <CartModal />
         </div>
       </div>
     );
