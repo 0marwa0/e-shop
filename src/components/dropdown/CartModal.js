@@ -1,6 +1,8 @@
 import React from "react";
 import "./Model/index.css";
-import Cart from "../../assetes/Icons/cart.svg";
+import CartIcon from "../../assetes/Icons/cart.svg";
+import { connect } from "react-redux";
+import Cart from "./Cart";
 class Menu extends React.Component {
   render() {
     //const [head, ...tail] = React.Children.toArray(this.props.children);
@@ -8,8 +10,8 @@ class Menu extends React.Component {
       <div className="menu">
         {/* [head] */}
         <div className="cart" onClick={this.props.openModal}>
-          <img src={Cart} alt="cart" height="25px" />
-          <div className="cartItem">2</div>
+          <img src={CartIcon} alt="cart" height="25px" />
+          <div className="cartItem">{this.props.data.length}</div>
         </div>
         <div
           onClick={this.props.closeModal}
@@ -52,18 +54,22 @@ class CartModal extends React.Component {
   }
 
   render() {
+    console.log(this.props.cart);
     return (
       <Menu
         isModalOpen={this.state.isModalOpen}
         openModal={this.openModal}
         closeModal={this.closeModal}
+        data={this.props.cart}
       >
-        <div className="item">list</div>
-        <div className="item">list</div>
-        <div className="item">list</div>
+        <Cart />
       </Menu>
     );
   }
 }
-
-export default CartModal;
+const data = (state) => {
+  return {
+    cart: state.cart.cart,
+  };
+};
+export default connect(data)(CartModal);
