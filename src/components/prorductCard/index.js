@@ -4,12 +4,9 @@ import { Link } from "react-router-dom";
 import cartIcon from "../../assetes/Icons/cartIcon.svg";
 import { connect } from "react-redux";
 import { addProduct } from "../../store/cartSlice";
+import Hoc from "../../pages/products/Hoc";
 class index extends React.Component {
-  addItem = (item) => {
-    let newCart = this.props.cart;
-    this.props.addProduct(item);
-    newCart = newCart.push(item);
-  };
+  addItem = (item) => {};
   render() {
     let { name, gallery, prices, id } = this.props.product;
     let price = prices.filter(
@@ -21,7 +18,6 @@ class index extends React.Component {
     let inTheCart = cart ? cart.some((cartItem) => cartItem.id === id) : false;
 
     return (
-      // <Link to={`/product/${id}`} className="card-link">
       <div className="card-holder">
         <div className="card-image">
           <img src={gallery[0]} alt="product" />
@@ -30,12 +26,12 @@ class index extends React.Component {
           ""
         ) : (
           <div
-            style={{ position: "relative", cursor: "pointer" }}
+            className="icon-cart-holder"
             onClick={() => {
-              this.addItem(this.props.product);
+              this.props.history(`/product/${id}`);
             }}
           >
-            <div className="icon-holder">
+            <div className="icon-cart">
               <img src={cartIcon} alt="0" height="22px" />
             </div>
           </div>
@@ -43,18 +39,17 @@ class index extends React.Component {
         <p>{name}</p>
         <div>{price}</div>
       </div>
-      // </Link>
     );
   }
 }
 const data = (state) => {
   return {
-    cart: state.cart.cart,
+    cart: state.cart.cart.items,
   };
 };
-const dispatch = (dispatch) => {
-  return {
-    addProduct: (data) => dispatch(addProduct(data)),
-  };
-};
-export default connect(data, dispatch)(index);
+// const dispatch = (dispatch) => {
+//   return {
+//     addProduct: (data) => dispatch(addProduct(data)),
+//   };
+// };
+export default Hoc(connect(data)(index));

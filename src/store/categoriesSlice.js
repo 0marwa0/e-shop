@@ -7,6 +7,7 @@ const query = `
     products{
       id
       name
+      brand
       gallery
       prices{
         currency{

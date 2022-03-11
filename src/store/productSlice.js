@@ -52,6 +52,7 @@ const prodcutSlice = createSlice({
     },
     [fetchProduct.fulfilled](state, action) {
       state.product = action.payload;
+
       state.loading = false;
     },
   },

@@ -1,19 +1,67 @@
 import React from "react";
 import withRouter from "./Hoc/index";
-import { fetchProduct, getProductById } from "../../store/productSlice";
+import { fetchProduct } from "../../store/productSlice";
 import { fetchCurrency } from "../../store/currencySlice";
+import { addProduct } from "../../store/cartSlice";
 import { connect } from "react-redux";
 import Attributes from "./Attributes";
-import img from "../../assetes/Icons/cart.svg";
+import ProductGallery from "./ProductGallery";
 class ProductInfo extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+  state = {
+    validItem: false,
+    attributes: [],
+  };
   componentDidMount() {
     this.props.getProduct(this.props.id);
     this.props.getCurrency();
-    //this.props.getProductById();
   }
+
+  validItems = (items) => {
+    let attributes = this.props.products.attributes;
+    let updatedAttributes = [];
+    for (let i = 0; i < attributes.length; i++) {
+      const attribute = attributes[i];
+      for (let j = 0; j < items.length; j++) {
+        const element = items[j];
+        if (attribute.name === element.name) {
+          updatedAttributes.push({
+            name: attribute.name,
+            selected: element.item,
+            items: [...attribute.items],
+          });
+        }
+      }
+    }
+    this.setState(() => ({
+      attributes: updatedAttributes,
+    }));
+  };
+  addItem = (item) => {
+    let { name, id, brand, prices, description, gallery } = item;
+    let product = {
+      name,
+      id,
+      brand,
+      prices,
+      description,
+      gallery,
+      count: 1,
+      attributes: this.state.attributes,
+    };
+    if (this.props.products.attributes.length > 0) {
+      if (
+        this.state.attributes.length === this.props.products.attributes.length
+      ) {
+        this.props.addProduct(product);
+      } else {
+        alert("please select attributes");
+      }
+    } else {
+      this.props.addProduct(product);
+    }
+
+    console.log("done");
+  };
   render() {
     let product = this.props.products;
     let { brand, name, gallery, prices, attributes, description } = product;
@@ -22,37 +70,25 @@ class ProductInfo extends React.Component {
           (price) => price["currency"]["symbol"] === this.props.selectedCurrency
         )[0].amount
       : "";
-    console.log("router props", attributes);
 
     return (
       <div className="product-info-page">
-        <div className="product-gallery">
-          <div className="product-images">
-            <div>
-              <img src={gallery ? gallery[1] : ""} width="100%" height="100%" />
-            </div>
-            <div>
-              <img src={gallery ? gallery[2] : ""} width="100%" height="100%" />
-            </div>
-            <div>
-              <img src={gallery ? gallery[3] : ""} width="100%" height="100%" />
-            </div>
-          </div>
-          <div className="main-image">
-            <img width="100%" height="100%" src={gallery ? gallery[0] : ""} />
-          </div>
-        </div>
+        <ProductGallery gallery={gallery} />
         <div className="product-info">
           <h1>{brand}</h1>
           <h1>{name}</h1>
-          <Attributes values={attributes} />
-
+          <Attributes values={attributes} validItems={this.validItems} />
           <div className="Attribute-holder">
             PRICE:
             <h1>{this.props.selectedCurrency + price}</h1>
           </div>
-          <button className="AddToCart">ADD TO CART</button>
 
+          <button
+            className="AddToCart"
+            onClick={() => this.addItem(this.props.products)}
+          >
+            ADD TO CART
+          </button>
           <div
             className="product-description"
             dangerouslySetInnerHTML={{ __html: description }}
@@ -66,14 +102,13 @@ const data = (state) => {
   return {
     products: state.products.product,
     selectedCurrency: state.currencies.selectedCurrency,
-    //product: state.product.product,
   };
 };
 const dispatch = (dispatch) => {
   return {
-    getProduct: (data) => dispatch(fetchProduct(data)),
+    getProduct: (id) => dispatch(fetchProduct(id)),
     getCurrency: () => dispatch(fetchCurrency()),
-    //getProductById: (id) => dispatch(getProductById(id)),
+    addProduct: (item) => dispatch(addProduct(item)),
   };
 };
 export default connect(data, dispatch)(withRouter(ProductInfo));

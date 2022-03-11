@@ -16,8 +16,8 @@ class Menu extends React.Component {
         <div
           onClick={this.props.closeModal}
           className={this.props.isModalOpen ? "out" : ""}
-        />{" "}
-        <div onClick={this.props.closeModal} />
+        />
+        {/* <div onClick={this.props.closeModal} /> */}
         {this.props.isModalOpen && (
           <div className="open">
             {this.props.children}
@@ -62,14 +62,14 @@ class CartModal extends React.Component {
         closeModal={this.closeModal}
         data={this.props.cart}
       >
-        <Cart />
+        <Cart closeModal={this.closeModal} />
       </Menu>
     );
   }
 }
 const data = (state) => {
   return {
-    cart: state.cart.cart,
+    cart: state.cart.cart.items,
   };
 };
 export default connect(data)(CartModal);

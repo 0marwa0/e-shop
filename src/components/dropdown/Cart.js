@@ -1,8 +1,10 @@
 import React from "react";
+import "./cart.css";
+import Hoc from "../../pages/products/Hoc";
 class Cart extends React.Component {
   render() {
     return (
-      <div>
+      <div className="mini-cart">
         <h1>My bag 2 items</h1>
         <div className="item-info-cart">
           <div>brand</div>
@@ -23,12 +25,20 @@ class Cart extends React.Component {
           </div>
         </div>
         <div className="flex">
-          <div>VIEW BAG</div>
-          <div>CHECK OUT</div>
+          <div
+            className="cart-btn cart-btn-view"
+            onClick={() => {
+              this.props.closeModal();
+              this.props.history("/cart");
+            }}
+          >
+            VIEW BAG
+          </div>
+          <div className="cart-btn cart-btn-check-out">CHECK OUT</div>
         </div>
       </div>
     );
   }
 }
 
-export default Cart;
+export default Hoc(Cart);

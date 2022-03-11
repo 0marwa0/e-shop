@@ -5,11 +5,12 @@ import DropDown from "../dropdown";
 import { connect } from "react-redux";
 import CartModal from "../dropdown/CartModal";
 import { setCategory, fetchCategory } from "../../store/categoriesSlice";
+import Hoc from "../../pages/products/Hoc";
 import "./index.css";
 import "../../App.css";
 class Navbar extends React.Component {
   state = {
-    currentCategory: this.props.currentCategory.name || "all",
+    currentCategory: this.props.currentCategory.name,
   };
   componentDidMount() {
     this.props.getCategories();
@@ -19,17 +20,22 @@ class Navbar extends React.Component {
     this.setState(() => ({
       currentCategory: category.name,
     }));
-    console.log(this.props.history);
   };
   render() {
     let categories = this.props.categories || [];
     return (
-      <div className="navbar-holder">
+      <div
+        className="navbar-holder"
+        onClick={() => console.log("should we put the close here")}
+      >
         <span className="tabs">
           {categories.map((category, i) => (
             <span
               key={i}
-              onClick={() => this.updateCategory(category)}
+              onClick={() => {
+                this.props.history("/");
+                this.updateCategory(category);
+              }}
               className={
                 this.state.currentCategory === category.name ? "activeTab" : ""
               }
@@ -62,4 +68,4 @@ const dispatch = (dispatch) => {
   };
 };
 
-export default connect(data, dispatch)(Navbar);
+export default connect(data, dispatch)(Hoc(Navbar));

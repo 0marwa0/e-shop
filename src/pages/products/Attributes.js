@@ -1,9 +1,24 @@
 import React from "react";
 
 class Attributes extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+  state = {
+    selectedItem: [],
+  };
+
+  selectedItem = (name, item) => {
+    let selectedItem = this.state.selectedItem ? this.state.selectedItem : [];
+    let newItems = selectedItem.filter(function (obj) {
+      return obj.name !== name;
+    });
+    this.setState(
+      () => ({
+        selectedItem: [...newItems, { name, item }],
+      }),
+      () => {
+        this.props.validItems(this.state.selectedItem);
+      }
+    );
+  };
   render() {
     let attributes = this.props.values;
     return (
@@ -16,6 +31,9 @@ class Attributes extends React.Component {
                   <div className="flex">
                     {item.items.map((value) => (
                       <div
+                        onClick={() =>
+                          this.selectedItem(item.name, value.value)
+                        }
                         style={{ backgroundColor: `${value.value}` }}
                         className="product-size"
                       ></div>
@@ -24,7 +42,14 @@ class Attributes extends React.Component {
                 ) : (
                   <div className="flex">
                     {item.items.map((value) => (
-                      <div className="product-size">{value.value}</div>
+                      <div
+                        className="product-size"
+                        onClick={() =>
+                          this.selectedItem(item.name, value.value)
+                        }
+                      >
+                        {value.value}
+                      </div>
                     ))}
                   </div>
                 )}
