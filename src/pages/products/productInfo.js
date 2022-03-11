@@ -2,7 +2,7 @@ import React from "react";
 import withRouter from "./Hoc/index";
 import { fetchProduct } from "../../store/productSlice";
 import { fetchCurrency } from "../../store/currencySlice";
-import { addProduct } from "../../store/cartSlice";
+import { addProduct, removeProduct } from "../../store/cartSlice";
 import { connect } from "react-redux";
 import Attributes from "./Attributes";
 import ProductGallery from "./ProductGallery";
@@ -64,13 +64,13 @@ class ProductInfo extends React.Component {
   };
   render() {
     let product = this.props.products;
-    let { brand, name, gallery, prices, attributes, description } = product;
+    let { id, brand, name, gallery, prices, attributes, description } = product;
     let price = prices
       ? prices.filter(
           (price) => price["currency"]["symbol"] === this.props.selectedCurrency
         )[0].amount
       : "";
-
+    let inCart = this.props.cart.some((item) => item.id === id);
     return (
       <div className="product-info-page">
         <ProductGallery gallery={gallery} />
@@ -85,9 +85,13 @@ class ProductInfo extends React.Component {
 
           <button
             className="AddToCart"
-            onClick={() => this.addItem(this.props.products)}
+            onClick={() =>
+              inCart
+                ? this.props.removeProduct(id)
+                : this.addItem(this.props.products)
+            }
           >
-            ADD TO CART
+            {inCart ? "REMOVE FROM CART" : "ADD TO CART"}
           </button>
           <div
             className="product-description"
@@ -101,6 +105,7 @@ class ProductInfo extends React.Component {
 const data = (state) => {
   return {
     products: state.products.product,
+    cart: state.cart.cart.items,
     selectedCurrency: state.currencies.selectedCurrency,
   };
 };
@@ -109,6 +114,7 @@ const dispatch = (dispatch) => {
     getProduct: (id) => dispatch(fetchProduct(id)),
     getCurrency: () => dispatch(fetchCurrency()),
     addProduct: (item) => dispatch(addProduct(item)),
+    removeProduct: (id) => dispatch(removeProduct(id)),
   };
 };
 export default connect(data, dispatch)(withRouter(ProductInfo));

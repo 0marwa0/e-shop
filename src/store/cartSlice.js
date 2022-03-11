@@ -20,7 +20,9 @@ const cartSlice = createSlice({
       const index = state.cart.items.findIndex(
         (cart) => cart.id === action.payload
       );
-      state.cart.splice(index, 1);
+      state.cart.items.splice(index, 1);
+
+      localStorage.setItem("my-cart", JSON.stringify(state.cart));
     },
 
     increase(state) {
