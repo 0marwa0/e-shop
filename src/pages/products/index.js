@@ -2,22 +2,19 @@ import React from "react";
 import { connect } from "react-redux";
 import { fetchCategory } from "../../store/categoriesSlice";
 import { fetchCurrency } from "../../store/currencySlice";
-import ProductCard from "../../components/prorductCard";
+import ProductCard from "../../components/product/card";
 import "./index.css";
 class Products extends React.Component {
-  state = {};
   componentDidMount() {
     this.props.getCategories();
     this.props.getCurrency();
   }
-
   render() {
-    let products = this.props.products.products || [];
     return (
       <div>
         <h1 className="product-title">Category Name </h1>
         <div className="cards-holder">
-          {products.map((item) => (
+          {this.props.products?.map((item) => (
             <ProductCard
               product={item}
               selectedCurrency={this.props.currencies.selectedCurrency}
@@ -28,11 +25,10 @@ class Products extends React.Component {
     );
   }
 }
-const data = function (state) {
+const state = function (state) {
   return {
-    products: state.categories.currentCategory,
+    products: state.categories.currentCategory.products,
     currencies: state.currencies,
-    cart: state.cart,
   };
 };
 
@@ -43,4 +39,4 @@ const dispatch = (dispatch) => {
   };
 };
 
-export default connect(data, dispatch)(Products);
+export default connect(state, dispatch)(Products);

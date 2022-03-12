@@ -1,11 +1,12 @@
 import React from "react";
-import withRouter from "./Hoc/index";
+import withRouter from "../../components/Hoc/index";
 import { fetchProduct } from "../../store/productSlice";
 import { fetchCurrency } from "../../store/currencySlice";
-import { addProduct, removeProduct } from "../../store/cartSlice";
+import { addProduct, getCart, removeProduct } from "../../store/cartSlice";
 import { connect } from "react-redux";
-import Attributes from "./Attributes";
-import ProductGallery from "./ProductGallery";
+import Attributes from "../../components/product/Attributes";
+import ProductGallery from "../../components/product/ProductGallery";
+import { getPrice, updatedSelectedValue } from "../../utlizeFun";
 class ProductInfo extends React.Component {
   state = {
     validItem: false,
@@ -14,44 +15,30 @@ class ProductInfo extends React.Component {
   componentDidMount() {
     this.props.getProduct(this.props.id);
     this.props.getCurrency();
+    this.props.getCart();
   }
 
   validItems = (items) => {
     let attributes = this.props.products.attributes;
-    let updatedAttributes = [];
-    for (let i = 0; i < attributes.length; i++) {
-      const attribute = attributes[i];
-      for (let j = 0; j < items.length; j++) {
-        const element = items[j];
-        if (attribute.name === element.name) {
-          updatedAttributes.push({
-            name: attribute.name,
-            selected: element.item,
-            items: [...attribute.items],
-          });
-        }
-      }
-    }
     this.setState(() => ({
-      attributes: updatedAttributes,
+      attributes: updatedSelectedValue(attributes, items),
     }));
   };
   addItem = (item) => {
-    let { name, id, brand, prices, description, gallery } = item;
+    let { name, id, brand, prices, gallery } = item;
+    let attributes = this.props.products.attributes;
+    let currentAttributes = this.state.attributes;
     let product = {
       name,
       id,
       brand,
       prices,
-      description,
       gallery,
       count: 1,
-      attributes: this.state.attributes,
+      attributes: currentAttributes,
     };
-    if (this.props.products.attributes.length > 0) {
-      if (
-        this.state.attributes.length === this.props.products.attributes.length
-      ) {
+    if (attributes.length > 0) {
+      if (currentAttributes.length === attributes.length) {
         this.props.addProduct(product);
       } else {
         alert("please select attributes");
@@ -59,25 +46,24 @@ class ProductInfo extends React.Component {
     } else {
       this.props.addProduct(product);
     }
-
-    console.log("done");
   };
   render() {
     let product = this.props.products;
     let { id, brand, name, gallery, prices, attributes, description } = product;
-    let price = prices
-      ? prices.filter(
-          (price) => price["currency"]["symbol"] === this.props.selectedCurrency
-        )[0].amount
-      : "";
-    let inCart = this.props.cart.some((item) => item.id === id);
+    let price = getPrice(prices, this.props.selectedCurrency);
+    let inCart = this.props.cart?.some((item) => item.id === id);
+    let savedAttributes = this.props.cart?.filter((item) => item.id === id);
     return (
       <div className="product-info-page">
         <ProductGallery gallery={gallery} />
         <div className="product-info">
           <h1>{brand}</h1>
           <h1>{name}</h1>
-          <Attributes values={attributes} validItems={this.validItems} />
+          <Attributes
+            values={attributes}
+            savedAttributes={savedAttributes}
+            validItems={this.validItems}
+          />
           <div className="Attribute-holder">
             PRICE:
             <h1>{this.props.selectedCurrency + price}</h1>
@@ -114,6 +100,7 @@ const dispatch = (dispatch) => {
     getProduct: (id) => dispatch(fetchProduct(id)),
     getCurrency: () => dispatch(fetchCurrency()),
     addProduct: (item) => dispatch(addProduct(item)),
+    getCart: () => dispatch(getCart()),
     removeProduct: (id) => dispatch(removeProduct(id)),
   };
 };

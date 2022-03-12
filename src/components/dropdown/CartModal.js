@@ -2,7 +2,7 @@ import React from "react";
 import "./Model/index.css";
 import CartIcon from "../../assetes/Icons/cart.svg";
 import { connect } from "react-redux";
-import Cart from "./Cart";
+import Cart from "./miniCart";
 class Menu extends React.Component {
   render() {
     //const [head, ...tail] = React.Children.toArray(this.props.children);
@@ -11,7 +11,7 @@ class Menu extends React.Component {
         {/* [head] */}
         <div className="cart" onClick={this.props.openModal}>
           <img src={CartIcon} alt="cart" height="25px" />
-          <div className="cartItem">{this.props.data.length}</div>
+          <div className="cartItem">{this.props.data?.length}</div>
         </div>
         <div
           onClick={this.props.closeModal}

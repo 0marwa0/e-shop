@@ -5,15 +5,19 @@ import DropDown from "../dropdown";
 import { connect } from "react-redux";
 import CartModal from "../dropdown/CartModal";
 import { setCategory, fetchCategory } from "../../store/categoriesSlice";
-import Hoc from "../../pages/products/Hoc";
+import Hoc from "../Hoc";
 import "./index.css";
 import "../../App.css";
+import { getCart } from "../../store/cartSlice";
+import PopupContainer from "../dropdown/popup";
+import MiniCart from "../dropdown/miniCart";
 class Navbar extends React.Component {
   state = {
     currentCategory: this.props.currentCategory.name,
   };
   componentDidMount() {
     this.props.getCategories();
+    this.props.getCart();
   }
   updateCategory = (category) => {
     this.props.changeCategory(category);
@@ -47,7 +51,10 @@ class Navbar extends React.Component {
         <img src={Logo} alt="logo" />
         <div className="flex">
           <DropDown />
-          <CartModal />
+          {/* <CartModal /> */}
+          <PopupContainer>
+            <MiniCart />
+          </PopupContainer>
         </div>
       </div>
     );
@@ -57,7 +64,7 @@ const data = function (state) {
   return {
     categories: state.categories.categories,
     currentCategory: state.categories.currentCategory,
-    cart: state.cart,
+    cart: state.cart.cart.items,
   };
 };
 
@@ -65,6 +72,7 @@ const dispatch = (dispatch) => {
   return {
     changeCategory: (data) => dispatch(setCategory(data)),
     getCategories: () => dispatch(fetchCategory()),
+    getCart: () => dispatch(getCart()),
   };
 };
 

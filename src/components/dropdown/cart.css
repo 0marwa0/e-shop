@@ -1,14 +1,18 @@
 .mini-cart {
   padding: 13px;
-  width: 325px;
+  width: 345px;
+  height: 380px;
 }
-
+.mini-cart-title {
+  font-weight: bold;
+  font-size: 16px;
+}
 .cart-btn {
   cursor: pointer;
-  padding: 13px 29px;
+  padding: 13px 20px;
   font-weight: bold;
   font-size: 14px;
-  width: 81px;
+  width: 85px;
 }
 .cart-btn-view {
   border: 1px solid gray;
@@ -16,4 +20,15 @@
 .cart-btn-check-out {
   background-color: #5ece7b;
   color: white;
+}
+.mini-cart-img {
+  width: 105px;
+  height: 137px;
+  overflow: hidden;
+}
+.item-info-cart {
+  display: flex;
+  width: 270px;
+  padding: 10px 0;
+  justify-content: space-between;
 }

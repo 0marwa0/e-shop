@@ -50,8 +50,11 @@
   position: absolute;
   top: 52px;
   right: 1px;
-  width: 300px;
+  width: max-content;
+  height: 450px;
   background-color: white;
+  overflow-y: auto;
+  overflow-x: hidden;
   z-index: 9999999999999999;
 }
 .out {
