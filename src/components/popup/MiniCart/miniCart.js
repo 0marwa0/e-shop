@@ -1,12 +1,28 @@
 import React from "react";
 import "./cart.css";
-import Hoc from "../Hoc";
+import Hoc from "../../Hoc";
 import { connect } from "react-redux";
+const Attribute = (props) => (
+  <div className="flex" style={{ width: "200px", overflow: "auto" }}>
+    {props.items.map((item) =>
+      item.attributes.map((item) => (
+        <div className="product-size">{item.selected}</div>
+      ))
+    )}
+  </div>
+);
 class Cart extends React.Component {
   render() {
     let items = this.props.cart;
+    console.log(items, "items");
     return (
-      <div className="mini-cart">
+      <div
+        className="mini-cart"
+        onClick={(e) => {
+          e.stopPropagation();
+          this.props.showDropdown();
+        }}
+      >
         <div className="mini-cart-title">My bag {items.length} item</div>
         {items.map(({ name, brand, gallery }) => (
           <div className="item-info-cart">
@@ -14,10 +30,11 @@ class Cart extends React.Component {
               <div>{brand}</div>
               <div>{name}</div>
               <div>$30,00</div>
-              <div className="flex">
+              <Attribute items={items} />
+              {/* <div className="flex">
                 <div>s</div>
                 <div>x</div>
-              </div>
+              </div> */}
             </div>
             <div>
               <div className="mini-cart-img">

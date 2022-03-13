@@ -4,10 +4,12 @@ import ProductInfo from "./pages/products/productInfo";
 import Navbar from "./components/navbar";
 import { Routes, Route } from "react-router-dom";
 import Cart from "./pages/cart";
+import { connect } from "react-redux";
+import { closeDropdown } from "./store/dropdownSlice";
 class App extends React.Component {
   render() {
     return (
-      <div style={{ margin: "0 50px" }}>
+      <div style={{ margin: "0 50px" }} onClick={this.props.hideDropdown}>
         <Navbar />
         <Routes>
           <Route path="/" element={<Products {...this.props} />} exact />
@@ -18,5 +20,9 @@ class App extends React.Component {
     );
   }
 }
-
-export default App;
+const dispatch = (dispatch) => {
+  return {
+    hideDropdown: () => dispatch(closeDropdown()),
+  };
+};
+export default connect(null, dispatch)(App);

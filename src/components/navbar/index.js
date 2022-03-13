@@ -1,16 +1,14 @@
 import React from "react";
 import Logo from "../../assetes/Icons/cart-logo.svg";
-import Cart from "../../assetes/Icons/cart.svg";
 import DropDown from "../dropdown";
 import { connect } from "react-redux";
-import CartModal from "../dropdown/CartModal";
 import { setCategory, fetchCategory } from "../../store/categoriesSlice";
 import Hoc from "../Hoc";
 import "./index.css";
 import "../../App.css";
 import { getCart } from "../../store/cartSlice";
-import PopupContainer from "../dropdown/popup";
-import MiniCart from "../dropdown/miniCart";
+import MiniCart from "../popup/MiniCart";
+import { closeModal } from "../../store/modalSlice";
 class Navbar extends React.Component {
   state = {
     currentCategory: this.props.currentCategory.name,
@@ -28,10 +26,7 @@ class Navbar extends React.Component {
   render() {
     let categories = this.props.categories || [];
     return (
-      <div
-        className="navbar-holder"
-        onClick={() => console.log("should we put the close here")}
-      >
+      <div className="navbar-holder" onClick={this.props.closeModal}>
         <span className="tabs">
           {categories.map((category, i) => (
             <span
@@ -51,10 +46,7 @@ class Navbar extends React.Component {
         <img src={Logo} alt="logo" />
         <div className="flex">
           <DropDown />
-          {/* <CartModal /> */}
-          <PopupContainer>
-            <MiniCart />
-          </PopupContainer>
+          <MiniCart />
         </div>
       </div>
     );
@@ -73,6 +65,7 @@ const dispatch = (dispatch) => {
     changeCategory: (data) => dispatch(setCategory(data)),
     getCategories: () => dispatch(fetchCategory()),
     getCart: () => dispatch(getCart()),
+    closeModal: () => dispatch(closeModal()),
   };
 };
 

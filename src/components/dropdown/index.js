@@ -3,17 +3,12 @@ import { connect } from "react-redux";
 import { fetchCurrency, setCurrency } from "../../store/currencySlice";
 import dropIcon from "../../assetes/Icons/dropIcon.svg";
 import "./index.css";
+import { showDropdown, closeDropdown } from "../../store/dropdownSlice";
 class DropDown extends React.Component {
   state = {
     selectedCurrency: this.props.currencies.selectedCurrency,
     currencies: this.props.currencies,
     items: this.props.currencies.currencies,
-    showItems: false,
-  };
-  dropDown = () => {
-    this.setState((prevState) => ({
-      showItems: !prevState.showItems,
-    }));
   };
 
   selectItem = (item) => {
@@ -31,13 +26,19 @@ class DropDown extends React.Component {
     return (
       <div className="select-box--box">
         <div className="select-box--container">
-          <div className="select-box--arrow" onClick={this.dropDown}>
+          <div
+            className="select-box--arrow"
+            onClick={(e) => {
+              e.stopPropagation();
+              this.props.showDropdown();
+            }}
+          >
             {this.state.selectedCurrency}{" "}
             <img src={dropIcon} alt="icon" height="6px" />
           </div>
 
           <div
-            style={{ display: this.state.showItems ? "block" : "none" }}
+            style={{ display: this.props.dropdown.show ? "block" : "none" }}
             className={"select-box--items"}
           >
             {this.props.currencies.currencies.map((item) => (
@@ -52,9 +53,10 @@ class DropDown extends React.Component {
   }
 }
 
-const data = function (state) {
+const state = function (state) {
   return {
     currencies: state.currencies,
+    dropdown: state.dropdown,
   };
 };
 
@@ -62,7 +64,9 @@ const dispatch = (dispatch) => {
   return {
     getCurrencies: () => dispatch(fetchCurrency()),
     changeCurrency: (data) => dispatch(setCurrency(data)),
+    showDropdown: () => dispatch(showDropdown()),
+    closeDropdown: () => dispatch(closeDropdown()),
   };
 };
 
-export default connect(data, dispatch)(DropDown);
+export default connect(state, dispatch)(DropDown);
