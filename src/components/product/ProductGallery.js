@@ -1,5 +1,4 @@
 import React from "react";
-
 class index extends React.Component {
   render() {
     let gallery = this.props.gallery;
@@ -12,6 +11,7 @@ class index extends React.Component {
             </div>
           ))}
         </div>
+
         <div className="main-image">
           <img
             width="100%"

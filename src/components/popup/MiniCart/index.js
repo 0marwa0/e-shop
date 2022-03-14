@@ -24,7 +24,10 @@ class index extends React.Component {
         />
         {this.props.modal.showModal && (
           <div className="open">
-            <Cart showDropdown={this.props.showModal} />
+            <Cart
+              showDropdown={this.props.showModal}
+              closeModal={this.props.closeModal}
+            />
           </div>
         )}
       </div>

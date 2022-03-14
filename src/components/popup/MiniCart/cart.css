@@ -32,3 +32,20 @@
   padding: 10px 0;
   justify-content: space-between;
 }
+.mini-cart-gallery {
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mini-cart-gallery-btn {
+  background: rgba(80, 79, 79, 0.3);
+  display: grid;
+  padding: 4px 8px;
+  border-radius: 50%;
+  border: none;
+  place-items: center;
+  height: max-content;
+}

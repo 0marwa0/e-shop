@@ -2,6 +2,7 @@ import React from "react";
 import "./cart.css";
 import Hoc from "../../Hoc";
 import { connect } from "react-redux";
+import MiniCartGallery from "./miniCartGallery";
 const Attribute = (props) => (
   <div className="flex" style={{ width: "200px", overflow: "auto" }}>
     {props.items.map((item) =>
@@ -36,6 +37,7 @@ class Cart extends React.Component {
                 <div>x</div>
               </div> */}
             </div>
+
             <div>
               <div className="mini-cart-img">
                 <img src={gallery[0]} height="100%" width="100%" alt="item" />
@@ -47,7 +49,8 @@ class Cart extends React.Component {
         <div className="flex">
           <div
             className="cart-btn cart-btn-view"
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               this.props.closeModal();
               this.props.history("/cart");
             }}

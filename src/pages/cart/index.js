@@ -7,14 +7,14 @@ import {
   increase,
   removeProduct,
 } from "../../store/cartSlice";
+import MiniCartGallery from "../../components/popup/MiniCart/miniCartGallery";
 class Cart extends React.Component {
   render() {
-    console.log(this.props.cart, "cart in the cartpapge");
     return (
       <>
         <h1 className="bold-text">Cart</h1>
         <div className="cart-page">
-          {this.props.cart.map(
+          {this.props.cart?.map(
             ({ brand, name, gallery, attributes, count }) => (
               <div className="cart-page-item">
                 <div className="item-cart-info">
@@ -56,7 +56,8 @@ class Cart extends React.Component {
                       -
                     </div>
                   </div>
-                  <div
+                  <MiniCartGallery images={gallery} />
+                  {/* <div
                     style={{
                       width: "200px",
                       hight: "200px",
@@ -66,7 +67,7 @@ class Cart extends React.Component {
                     }}
                   >
                     <img src={gallery[0]} alt="item" width="100%" />
-                  </div>
+                  </div> */}
                 </div>
               </div>
             )
