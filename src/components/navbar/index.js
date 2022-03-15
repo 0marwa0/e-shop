@@ -25,6 +25,7 @@ class Navbar extends React.Component {
   };
   render() {
     let categories = this.props.categories || [];
+    console.log(this.props.cart, "really cart state");
     return (
       <div className="navbar-holder" onClick={this.props.closeModal}>
         <span className="tabs">
@@ -56,7 +57,7 @@ const data = function (state) {
   return {
     categories: state.categories.categories,
     currentCategory: state.categories.currentCategory,
-    cart: state.cart.cart.items,
+    cart: state.cart,
   };
 };
 

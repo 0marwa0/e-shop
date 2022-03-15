@@ -10,3 +10,7 @@
   color: unset;
   cursor: default;
 }
+.center {
+  display: grid;
+  place-items: center;
+}

@@ -2,6 +2,7 @@
   padding: 13px;
   width: 345px;
   height: 380px;
+  overflow-y: scroll;
 }
 .mini-cart-title {
   font-weight: bold;
@@ -31,6 +32,12 @@
   width: 270px;
   padding: 10px 0;
   justify-content: space-between;
+}
+.mini-cart-btns {
+  display: grid;
+  grid-template-columns: auto auto;
+  place-items: center;
+  margin-bottom: 10px;
 }
 .mini-cart-gallery {
   width: 200px;

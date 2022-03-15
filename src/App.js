@@ -7,6 +7,11 @@ import Cart from "./pages/cart";
 import { connect } from "react-redux";
 import { closeDropdown } from "./store/dropdownSlice";
 class App extends React.Component {
+  componentDidMount() {
+    if (!localStorage.getItem("my-cart")) {
+      localStorage.setItem("my-cart", JSON.stringify({ items: [] }));
+    }
+  }
   render() {
     return (
       <div style={{ margin: "0 50px" }} onClick={this.props.hideDropdown}>

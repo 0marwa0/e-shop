@@ -44,6 +44,7 @@ class ProductInfo extends React.Component {
         alert("please select attributes");
       }
     } else {
+      console.log(product, "before the api");
       this.props.addProduct(product);
     }
   };
@@ -91,7 +92,7 @@ class ProductInfo extends React.Component {
 const data = (state) => {
   return {
     products: state.products.product,
-    cart: state.cart.cart.items,
+    cart: state.cart.items,
     selectedCurrency: state.currencies.selectedCurrency,
   };
 };

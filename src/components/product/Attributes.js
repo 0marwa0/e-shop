@@ -1,12 +1,12 @@
 import React from "react";
-
+import AttributeItem from "./AttributeItem";
 class Attributes extends React.Component {
   state = {
     selectedItems: [],
-    savedAttributes: this.props.savedAttributes
-      ? this.props.savedAttributes[0]?.attributes
-      : this.props.values,
     selected: "",
+    attributes: this.props.savedAttributes
+      ? this.props.savedAttributes
+      : this.props.values,
   };
 
   selectedItem = (name, item) => {
@@ -24,53 +24,23 @@ class Attributes extends React.Component {
     );
   };
   render() {
-    let attributes = this.state.savedAttributes;
-
-    console.log(this.props.savedAttributes, "Selected");
     return (
       <div>
-        {attributes
-          ? attributes.map((item) => (
-              <div className="Attribute-holder">
-                <p>{item.name + " :"}</p>
-                {item.name === "Color" ? (
-                  <div className="flex">
-                    {console.log(item.selected, "hell yea")}
-                    {item.items.map((value) => (
-                      <div
-                        onClick={() => {
-                          this.setState(() => ({ selected: value.value }));
-                          this.selectedItem(item.name, value.value);
-                        }}
-                        style={{
-                          border:
-                            this.state.selected === value.value ||
-                            item.selected === value.value
-                              ? "4px solid green"
-                              : "4px solid white",
-                          backgroundColor: `${value.value}`,
-                        }}
-                        className="product-size"
-                      ></div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="flex">
-                    {item.items.map((value) => (
-                      <div
-                        className="product-size"
-                        onClick={() =>
-                          this.selectedItem(item.name, value.value)
-                        }
-                      >
-                        {value.value}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))
-          : ""}
+        {this.props.values?.map((item) => (
+          <div className="Attribute-holder">
+            <p>{item.name + " :"}</p>
+            <div className="flex">
+              {item?.items.map((value) => (
+                <AttributeItem
+                  type={item.type}
+                  value={value.value}
+                  name={item.name}
+                  onSelect={this.selectedItem}
+                />
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     );
   }

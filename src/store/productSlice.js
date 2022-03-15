@@ -12,6 +12,7 @@ const query = `
       gallery
        description
       attributes{
+        type
         name
         items{
           value

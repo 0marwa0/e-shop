@@ -49,7 +49,7 @@
   top: 52px;
   right: 1px;
   width: max-content;
-  height: 450px;
+  /* height: 450px; */
   background-color: white;
   overflow-y: auto;
   overflow-x: hidden;

@@ -13,6 +13,7 @@ export const updatedSelectedValue = (attributes, items) => {
       const element = items[j];
       if (attribute.name === element.name) {
         updatedAttributes.push({
+          type: attribute.type,
           name: attribute.name,
           selected: element.item,
           items: [...attribute.items],

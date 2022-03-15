@@ -7,6 +7,7 @@ import { showModal, closeModal } from "../../../store/modalSlice";
 class index extends React.Component {
   render() {
     let data = this.props.cart;
+    console.log(data, "mini cart icon");
     return (
       <div className="menu">
         <div
@@ -16,7 +17,7 @@ class index extends React.Component {
           }}
         >
           <img src={CartIcon} alt="cart" height="25px" />
-          <div className="cartItem">{data?.length}</div>
+          <div className="cartItem">{this.props.cart?.length || 0}</div>
         </div>
         <div
           onClick={this.props.closeModal}
@@ -36,7 +37,7 @@ class index extends React.Component {
 }
 const state = (state) => {
   return {
-    cart: state.cart.cart.items,
+    cart: state.cart.items,
     modal: state.modal,
   };
 };
