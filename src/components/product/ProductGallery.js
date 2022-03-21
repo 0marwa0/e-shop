@@ -1,4 +1,5 @@
 import React from "react";
+import LazyLoading from "../LazyLoading";
 class index extends React.Component {
   render() {
     let gallery = this.props.gallery;
@@ -7,18 +8,13 @@ class index extends React.Component {
         <div className="product-images">
           {gallery?.map((src, i) => (
             <div key={i}>
-              <img src={src} width="100%" height="100%" alt="product" />
+              <LazyLoading src={src} alt="" item={this.props.item} />
             </div>
           ))}
         </div>
 
         <div className="main-image">
-          <img
-            width="100%"
-            height="100%"
-            src={gallery ? gallery[0] : ""}
-            alt="product"
-          />
+          <LazyLoading src={gallery?.[0]} alt="" item={this.props.item} />
         </div>
       </div>
     );

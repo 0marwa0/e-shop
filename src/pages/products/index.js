@@ -3,18 +3,57 @@ import { connect } from "react-redux";
 import { fetchCategory } from "../../store/categoriesSlice";
 import { fetchCurrency } from "../../store/currencySlice";
 import ProductCard from "../../components/product/card";
+import Pagination from "../../components/pagination";
 import "./index.css";
 class Products extends React.Component {
+  state = { currentPage: 1, perPage: 3 };
   componentDidMount() {
     this.props.getCategories();
     this.props.getCurrency();
   }
+  nextPage = () => {
+    const totalPage = Math.ceil(
+      this.props.products.length / this.state.perPage
+    );
+    if (totalPage !== this.state.currentPage) {
+      this.setState(() => ({
+        currentPage: this.state.currentPage + 1,
+      }));
+    }
+  };
+
+  prevPage = () => {
+    if (this.state.currentPage > 1)
+      this.setState(() => ({
+        currentPage: this.state.currentPage - 1,
+      }));
+  };
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.products !== this.props.products) {
+      this.setState({ currentPage: 1 });
+    }
+  }
   render() {
+    let products = this.props.products;
+    let lastIndex = this.state.currentPage * this.state.perPage;
+    let firstIndex = lastIndex - this.state.perPage;
+    products = products?.slice(firstIndex, lastIndex);
+    let total = Math.round(this.props.products?.length / this.state.perPage);
+
     return (
       <div>
         <h1 className="product-title">Category Name </h1>
+        <Pagination
+          totalPage={Math.round(
+            this.props.products?.length / this.state.perPage
+          )}
+          currentPage={this.state.currentPage}
+          onPrev={this.nextPage}
+          onNext={this.prevPage}
+          key={this.props.products}
+        />
         <div className="cards-holder">
-          {this.props.products?.map((item) => (
+          {products?.map((item) => (
             <ProductCard
               product={item}
               selectedCurrency={this.props.currencies.selectedCurrency}

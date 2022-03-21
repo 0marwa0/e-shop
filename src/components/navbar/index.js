@@ -37,7 +37,9 @@ class Navbar extends React.Component {
                 this.updateCategory(category);
               }}
               className={
-                this.state.currentCategory === category.name ? "activeTab" : ""
+                this.props.currentCategory.name === category.name
+                  ? "activeTab"
+                  : ""
               }
             >
               {category.name}

@@ -6,14 +6,13 @@ import Cart from "./miniCart";
 import { showModal, closeModal } from "../../../store/modalSlice";
 class index extends React.Component {
   render() {
-    let data = this.props.cart;
-    console.log(data, "mini cart icon");
     return (
       <div className="menu">
         <div
           onClick={(e) => {
-            e.stopPropagation();
+            window.scroll(0, 0);
             this.props.showModal();
+            e.stopPropagation();
           }}
         >
           <img src={CartIcon} alt="cart" height="25px" />

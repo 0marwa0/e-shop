@@ -1,22 +1,36 @@
 import React from "react";
 import "./cart.css";
-import Hoc from "../../Hoc";
 import { connect } from "react-redux";
-import MiniCartGallery from "./miniCartGallery";
+import Pagination from "../../..//components/pagination";
 import EmptyCart from "../../../assetes/Icons/empty_cart.gif";
-const Attribute = (props) => (
-  <div className="flex" style={{ width: "200px", overflow: "auto" }}>
-    {props.items.map((item) =>
-      item.attributes.map((item) => (
-        <div className="product-size">{item.selected}</div>
-      ))
-    )}
-  </div>
-);
+import CartItem from "./miniCartItem";
+import CartControl from "./miniCartControl";
+import { totalPrice } from "../../../utlizeFun";
 class Cart extends React.Component {
+  state = { currentPage: 1, perPage: 3 };
+  nextPage = () => {
+    const totalPage = Math.ceil(this.props.items.length / this.state.perPage);
+    if (totalPage !== this.state.currentPage) {
+      this.setState(() => ({
+        currentPage: this.state.currentPage + 1,
+      }));
+    }
+  };
+
+  prevPage = () => {
+    if (this.state.currentPage > 1)
+      this.setState(() => ({
+        currentPage: this.state.currentPage - 1,
+      }));
+  };
   render() {
     let items = this.props.cart;
-
+    let currency = this.props.selectedCurrency;
+    let lastIndex = this.state.currentPage * this.state.perPage;
+    let firstIndex = lastIndex - this.state.perPage;
+    items = items?.slice(firstIndex, lastIndex);
+    let totalPages = Math.round(this.props.cart?.length / this.state.perPage);
+    let totalCost = currency + " " + totalPrice(items, currency);
     return (
       <>
         <div
@@ -30,59 +44,39 @@ class Cart extends React.Component {
             My bag {items?.length || 0} item
           </div>
           {items ? (
-            items.map(({ name, brand, gallery }) => (
-              <div className="item-info-cart">
-                <div>
-                  <div>{brand}</div>
-                  <div>{name}</div>
-                  <div>$30,00</div>
-                  <div className="flex">
-                    <div>s</div>
-                    <div>x</div>
-                  </div>
-                </div>
-
-                <div>
-                  <div className="mini-cart-img">
-                    <img
-                      src={gallery?.[0]}
-                      height="100%"
-                      width="100%"
-                      alt="item"
-                    />
-                  </div>
-                </div>
-              </div>
-            ))
+            items.map((item) => <CartItem data={item} />)
           ) : (
             <div className="center">
               <img src={EmptyCart} alt="empty cart" />
             </div>
           )}
         </div>
-        <span className="mini-cart-btns">
-          {items ? (
-            <span
-              className="cart-btn cart-btn-view"
-              onClick={(e) => {
-                e.stopPropagation();
-                this.props.closeModal();
-                this.props.history("/cart");
-              }}
-            >
-              VIEW BAG
-            </span>
-          ) : null}
+        <div className="mini-cart-total">
+          <span>total :</span>
+          {totalCost}
+        </div>
+        {totalPages > 1 ? (
+          <div className="center">
+            <Pagination
+              totalPage={totalPages}
+              currentPage={this.state.currentPage}
+              onPrev={this.prevPage}
+              onNext={this.nextPage}
+            />
+          </div>
+        ) : (
+          ""
+        )}
 
-          <span className="cart-btn cart-btn-check-out">CHECK OUT</span>
-        </span>
+        <CartControl items={items} closeModal={this.props.closeModal} />
       </>
     );
   }
 }
 const data = (state) => {
   return {
+    selectedCurrency: state.currencies.selectedCurrency,
     cart: state.cart.items,
   };
 };
-export default connect(data)(Hoc(Cart));
+export default connect(data)(Cart);

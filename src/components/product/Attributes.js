@@ -1,12 +1,11 @@
 import React from "react";
 import AttributeItem from "./AttributeItem";
+import { connect } from "react-redux";
 class Attributes extends React.Component {
   state = {
     selectedItems: [],
     selected: "",
-    attributes: this.props.savedAttributes
-      ? this.props.savedAttributes
-      : this.props.values,
+    item: {},
   };
 
   selectedItem = (name, item) => {
@@ -23,18 +22,29 @@ class Attributes extends React.Component {
       }
     );
   };
+
   render() {
+    let id = this.props.product.id;
+    let inCart = this.props.cart?.some((item) => item.id === id);
+    let item = this.props.cart?.filter((item) => {
+      return item.id === id;
+    });
+    item = item ? item[0] : null;
+
+    let product = inCart ? item.attributes : this.props.product.attributes;
+    console.log("in the cart", product);
     return (
       <div>
-        {this.props.values?.map((item) => (
+        {product?.map((item) => (
           <div className="Attribute-holder">
             <p>{item.name + " :"}</p>
             <div className="flex">
-              {item?.items.map((value) => (
+              {console.log(item, "the first one")}
+              {item.items.map((value, i) => (
                 <AttributeItem
-                  type={item.type}
+                  index={i}
                   value={value.value}
-                  name={item.name}
+                  item={item}
                   onSelect={this.selectedItem}
                 />
               ))}
@@ -45,5 +55,9 @@ class Attributes extends React.Component {
     );
   }
 }
-
-export default Attributes;
+const state = (state) => {
+  return {
+    cart: state.cart.items,
+  };
+};
+export default connect(state)(Attributes);

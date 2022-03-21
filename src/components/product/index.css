@@ -1,13 +1,12 @@
 .card-holder {
   width: 386px;
-  height: 444px;
+  height: 404px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   padding: 16px;
   margin: 10px 0;
   background: #ffffff;
-  /* position: relative; */
 }
 .card-holder:hover {
   box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19);
@@ -18,12 +17,15 @@
 .card-image {
   width: 380px;
   height: 360px;
+  border: none;
+  display: grid;
+  place-items: center;
   overflow: hidden;
   transition: all 0.2s ease-in-out;
 }
 .card-image img {
   width: 100%;
-  transition: all 0.2s ease-in-out;
+  background-color: transparent;
 }
 .icon-cart-holder {
   position: relative;

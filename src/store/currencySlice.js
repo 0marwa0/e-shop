@@ -20,23 +20,19 @@ const currencySlice = createSlice({
   name: "currencies",
   initialState: {
     currencies: [],
-    selectedCurrency: "$",
+    selectedCurrency: localStorage.getItem("currency") ?? "$",
     loading: true,
   },
 
   reducers: {
     setCurrency(state, action) {
       state.selectedCurrency = action.payload;
-      console.log(action.payload, "when it change");
+      localStorage.setItem("currency", action.payload);
     },
   },
   extraReducers: {
-    [fetchCurrency.pending](state) {
-      state.loading = true;
-    },
     [fetchCurrency.fulfilled](state, action) {
       state.currencies = action.payload;
-      state.loading = false;
     },
   },
 });

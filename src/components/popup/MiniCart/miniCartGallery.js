@@ -1,6 +1,7 @@
 import React from "react";
 import LeftIcon from "../../../assetes/Icons/left.svg";
 import RightIcon from "../../../assetes/Icons/right.svg";
+import LazyLoading from "../../LazyLoading";
 import "./cart.css";
 class index extends React.Component {
   state = {
@@ -10,7 +11,6 @@ class index extends React.Component {
   };
 
   nextImage = () => {
-    console.log("where should we but this");
     this.setState(() => ({
       currentImage: this.state.currentImage + 1,
       loading: true,
@@ -25,7 +25,7 @@ class index extends React.Component {
   render() {
     let images = this.props.images;
     let currentIndex = this.state.currentImage;
-    let gallery = images.length - 1;
+    let gallery = images?.length - 1;
     let prevAllowed = currentIndex !== 0 && gallery > 0 ? true : false;
     let nextAllowed = currentIndex < gallery ? true : false;
     return (
@@ -40,11 +40,11 @@ class index extends React.Component {
         >
           <img src={LeftIcon} alt="icon" />
         </button>
-        <img
-          width="100%"
+        <LazyLoading
           src={images?.[this.state.currentImage]}
-          alt="product"
+          item={this.props.product}
         />
+
         <button
           disabled={nextAllowed ? false : true}
           style={{

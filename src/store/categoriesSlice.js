@@ -43,9 +43,6 @@ const CategorisSlice = createSlice({
     },
   },
   extraReducers: {
-    [fetchCategory.pending](state) {
-      state.loading = true;
-    },
     [fetchCategory.fulfilled](state, action) {
       state.categories = action.payload.categories;
       state.currentCategory = action.payload.categories[0];

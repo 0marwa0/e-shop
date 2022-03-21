@@ -23,3 +23,12 @@ export const updatedSelectedValue = (attributes, items) => {
   }
   return updatedAttributes;
 };
+export const totalPrice = (items, currency) => {
+  let total = 0;
+  items?.map((item) => {
+    let amount = getPrice(item.prices, currency);
+    total = amount * item.count;
+  });
+
+  return total;
+};

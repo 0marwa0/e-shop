@@ -36,7 +36,8 @@
   flex-direction: column;
 }
 
-.product-size {
+.product-size-lg,
+.product-size-sm {
   width: 63px;
   height: 45px;
   border: 1px solid;
@@ -45,6 +46,16 @@
   align-items: center;
   margin-right: 5px;
   cursor: pointer;
+}
+.product-size-sm {
+  min-width: 30px;
+  max-width: max-content;
+  height: 20px;
+  border-radius: 15px;
+  border: none;
+  padding: 2px 5px;
+  margin-top: 4px;
+  background: rgb(243, 243, 243);
 }
 .product-description {
   margin-top: 10px;

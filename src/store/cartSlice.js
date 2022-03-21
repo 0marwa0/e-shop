@@ -8,54 +8,43 @@ const cartSlice = createSlice({
   initialState: {
     cart: { items: [] },
   },
-
   reducers: {
     addProduct(state, action) {
       state.items.push(action.payload);
       postCart(state, "my-cart");
-      console.log("when added", state.items);
     },
     removeProduct(state, action) {
       const index = state.items.findIndex((cart) => cart.id === action.payload);
       state.items.splice(index, 1);
       postCart(state);
     },
-    increase(state) {
-      state.cart.items.map((item) => item.count++);
+    increase(state, action) {
+      state.items.map((item) => {
+        if (action.payload === item.id) {
+          item.count = item.count + 1;
+        } else {
+          return item;
+        }
+      });
+      postCart(state);
     },
-    decrease(state) {
-      state.cart.items.map((item) =>
-        item.count > 0 ? item.count-- : item.count
-      );
+    decrease(state, action) {
+      state.items.map((item) => {
+        if (action.payload === item.id && item.count > 1) {
+          item.count = item.count - 1;
+        } else {
+          return item;
+        }
+      });
+      postCart(state);
     },
   },
 
   extraReducers: (builder) => {
     builder.addCase(getCart.fulfilled, (state, action) => {
-      // console.log(action.payload, "should get the obg form log");
       if (action.payload) return action.payload;
     });
   },
-
-  // extraReducers: {
-  //   [getCart.fulfilled](state, action) {
-  //     // console.log("api fulfilled", action.payload);
-  //     const isEmpty = Object.keys(action.payload).length === 0;
-  //     console.log(isEmpty, "type of actio");
-  //     if (isEmpty) {
-  //       state.cart = JSON.stringify({ items: [] });
-  //     }
-  //     //state.cart = action.payload;
-  //   },
-  //   [getCart.pending](state, action) {
-  //     console.log("api pending", action.payload);
-  //     state.cart = action.payload;
-  //   },
-  //   [getCart.rejected](state, action) {
-  //     console.log("api fulfilled", action.payload);
-  //     state.cart.items = [];
-  //   },
-  // },
 });
 export const { addProduct, removeProduct, decrease, increase } =
   cartSlice.actions;

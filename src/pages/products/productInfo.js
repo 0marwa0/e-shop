@@ -40,31 +40,31 @@ class ProductInfo extends React.Component {
     if (attributes.length > 0) {
       if (currentAttributes.length === attributes.length) {
         this.props.addProduct(product);
+        //clear currentAttributes state
       } else {
         alert("please select attributes");
       }
     } else {
-      console.log(product, "before the api");
       this.props.addProduct(product);
+      //clear currentAttributes state
     }
   };
   render() {
     let product = this.props.products;
-    let { id, brand, name, gallery, prices, attributes, description } = product;
+    let { id, brand, name, gallery, prices, description } = product;
     let price = getPrice(prices, this.props.selectedCurrency);
     let inCart = this.props.cart?.some((item) => item.id === id);
-    let savedAttributes = this.props.cart?.filter((item) => item.id === id);
+
     return (
       <div className="product-info-page">
         <ProductGallery gallery={gallery} />
         <div className="product-info">
           <h1>{brand}</h1>
           <h1>{name}</h1>
-          <Attributes
-            values={attributes}
-            savedAttributes={savedAttributes}
-            validItems={this.validItems}
-          />
+          <Attributes validItems={this.validItems} product={product} />
+          <small>
+            Note: the fist attribute will be chosen, if you didn't choose any
+          </small>
           <div className="Attribute-holder">
             PRICE:
             <h1>{this.props.selectedCurrency + price}</h1>

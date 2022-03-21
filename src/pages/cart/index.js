@@ -7,71 +7,27 @@ import {
   increase,
   removeProduct,
 } from "../../store/cartSlice";
-import MiniCartGallery from "../../components/popup/MiniCart/miniCartGallery";
+import CartItem from "./cartItem";
+import ItemControl from "./itemControl";
+
 class Cart extends React.Component {
   render() {
+    let currency = this.props.selectedCurrency;
+
     return (
       <>
         <h1 className="bold-text">Cart</h1>
         <div className="cart-page">
-          {this.props.cart?.map(
-            ({ brand, name, gallery, attributes, count }) => (
-              <div className="cart-page-item">
-                <div className="item-cart-info">
-                  <div className="bold-text">{brand}</div>
-                  <div>{name}</div>
-                  <div className="bold-text">$30,00</div>
-                  {attributes.map((item) => (
-                    <>
-                      {item.name}{" "}
-                      <div className="flex">
-                        {item.items.map((value) => (
-                          <div
-                            className={
-                              value.value === item.selected
-                                ? "box-selected"
-                                : "box-container"
-                            }
-                          >
-                            {value.value}
-                          </div>
-                        ))}
-                      </div>
-                    </>
-                  ))}
-                </div>
-                <div className="item-cart-control">
-                  <div className="flex-col">
-                    <div
-                      className="box-container"
-                      onClick={this.props.increase}
-                    >
-                      +
-                    </div>
-                    <div>{count}</div>
-                    <div
-                      className="box-container"
-                      onClick={this.props.decrease}
-                    >
-                      -
-                    </div>
-                  </div>
-                  <MiniCartGallery images={gallery} />
-                  {/* <div
-                    style={{
-                      width: "200px",
-                      hight: "200px",
-                      overflow: "hidden",
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <img src={gallery[0]} alt="item" width="100%" />
-                  </div> */}
-                </div>
-              </div>
-            )
-          )}
+          {this.props.cart?.map((item) => (
+            <div className="cart-page-item">
+              <CartItem item={item} currency={currency} />
+              <ItemControl
+                item={item}
+                increase={() => this.props.increase(item.id)}
+                decrease={() => this.props.decrease(item.id)}
+              />
+            </div>
+          ))}
         </div>
       </>
     );
@@ -79,7 +35,8 @@ class Cart extends React.Component {
 }
 const data = (state) => {
   return {
-    cart: state.cart.cart.items,
+    cart: state.cart.items,
+    selectedCurrency: state.currencies.selectedCurrency,
   };
 };
 
@@ -87,8 +44,8 @@ const dispatch = (dispatch) => {
   return {
     addItem: (item) => dispatch(addProduct(item)),
     deleteItem: (id) => dispatch(removeProduct(id)),
-    increase: () => dispatch(increase()),
-    decrease: () => dispatch(decrease()),
+    increase: (id) => dispatch(increase(id)),
+    decrease: (id) => dispatch(decrease(id)),
   };
 };
 

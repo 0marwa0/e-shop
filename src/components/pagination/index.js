@@ -1,0 +1,42 @@
+import React from "react";
+import LeftIcon from "../../assetes/Icons/left.svg";
+import RightIcon from "../../assetes/Icons/right.svg";
+import "./index.css";
+class index extends React.Component {
+  state = {};
+  render() {
+    let current = this.props.currentPage;
+    let total = this.props.totalPage;
+    let leftAllowed = current > 1;
+    let rightAllowed = current !== total;
+    return (
+      <div className="flex">
+        <button
+          className={leftAllowed ? "pagination-btn-active" : "pagination-btn"}
+          onClick={(e) => {
+            e.stopPropagation();
+            this.props.onNext();
+          }}
+        >
+          <img src={LeftIcon} alt="icon" />
+        </button>
+        <div>
+          {current}
+          {" / "}
+          {total}
+        </div>
+        <button
+          className={rightAllowed ? "pagination-btn-active" : "pagination-btn"}
+          onClick={(e) => {
+            this.props.onPrev();
+            e.stopPropagation();
+          }}
+        >
+          <img src={RightIcon} alt="icon" />
+        </button>
+      </div>
+    );
+  }
+}
+
+export default index;

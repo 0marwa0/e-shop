@@ -1,24 +1,26 @@
 import React from "react";
 class index extends React.Component {
   render() {
-    let type = this.props.type;
     let value = this.props.value;
-    let name = this.props.name;
+    let { name, type, selected } = this.props.item;
+    let isSwatch = type === "swatch" ? true : false;
+    console.log(selected);
     return (
       <div
         onClick={() => {
           this.props.onSelect(name, value);
         }}
+        className={
+          selected === value
+            ? "product-size-lg selected-item"
+            : "product-size-lg"
+        }
         style={{
-          //   border:
-          //     this.state.selected === value.value || item.selected === value.value
-          //       ? "4px solid green"
-          //       : "4px solid white",
-          backgroundColor: type === "swatch" ? value : "white",
+          border: selected === value ? "6px solid gray" : "",
+          backgroundColor: isSwatch ? value : "white",
         }}
-        className="product-size"
       >
-        {type === "text" ? value : ""}
+        {!isSwatch ? value : ""}
       </div>
     );
   }
