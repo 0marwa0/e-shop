@@ -28,6 +28,7 @@
 
 .select-box--arrow {
   width: 40px;
+  cursor: pointer;
   display: grid;
   height: max-content;
   gap: 1px;

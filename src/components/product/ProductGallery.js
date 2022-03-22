@@ -8,13 +8,13 @@ class index extends React.Component {
         <div className="product-images">
           {gallery?.map((src, i) => (
             <div key={i}>
-              <LazyLoading src={src} alt="" item={this.props.item} />
+              <LazyLoading src={src} item={this.props.item} />
             </div>
           ))}
         </div>
 
         <div className="main-image">
-          <LazyLoading src={gallery?.[0]} alt="" item={this.props.item} />
+          <LazyLoading src={gallery?.[0]} item={this.props.item} />
         </div>
       </div>
     );

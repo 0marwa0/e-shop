@@ -18,7 +18,6 @@ class index extends React.Component {
           src={src}
           alt=""
           width="100%"
-          // height="100%"
           onLoadedDataCapture={() => this.setState({ loading: true })}
           onLoad={() => this.setState({ loading: false })}
         />

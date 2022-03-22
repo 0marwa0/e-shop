@@ -1,14 +1,16 @@
 import React from "react";
+import { connect } from "react-redux";
+import withRouter from "../../components/Hoc";
 class index extends React.Component {
   render() {
     let value = this.props.value;
     let { name, type, selected } = this.props.item;
     let isSwatch = type === "swatch" ? true : false;
-    console.log(selected);
+    let inCart = this.props.cart?.some((item) => item.id === this.props.id);
     return (
       <div
         onClick={() => {
-          this.props.onSelect(name, value);
+          this.props.onSelect({ name, value });
         }}
         className={
           selected === value
@@ -16,7 +18,6 @@ class index extends React.Component {
             : "product-size-lg"
         }
         style={{
-          border: selected === value ? "6px solid gray" : "",
           backgroundColor: isSwatch ? value : "white",
         }}
       >
@@ -25,4 +26,9 @@ class index extends React.Component {
     );
   }
 }
-export default index;
+const state = (state) => {
+  return {
+    cart: state.cart.items,
+  };
+};
+export default connect(state)(withRouter(index));

@@ -1,16 +1,13 @@
-export async function fetchCart(key = "") {
-  key = key === "" ? "my-cart" : key;
+export async function fetchRequest() {
   try {
-    const res = (await localStorage.getItem(key)) || "{}";
+    const res = (await localStorage.getItem("cart")) || "{}";
     let rest = await JSON.parse(res);
     return rest;
   } catch (e) {}
 }
 
-export async function postCart(data, key = "") {
-  key = key === "" ? "my-cart" : key;
+export async function postRequest(data) {
   try {
-    console.log(data, "post to cart");
-    await localStorage.setItem(key, JSON.stringify(data));
+    await localStorage.setItem("cart", JSON.stringify(data));
   } catch (e) {}
 }

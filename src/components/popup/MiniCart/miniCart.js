@@ -6,15 +6,17 @@ import EmptyCart from "../../../assetes/Icons/empty_cart.gif";
 import CartItem from "./miniCartItem";
 import CartControl from "./miniCartControl";
 import { totalPrice } from "../../../utlizeFun";
-class Cart extends React.Component {
-  state = { currentPage: 1, perPage: 3 };
+class MiniCart extends React.Component {
+  state = { currentPage: 1, perPage: 2 };
   nextPage = () => {
-    const totalPage = Math.ceil(this.props.items.length / this.state.perPage);
+    const totalPage = Math.round(this.props.cart.length / this.state.perPage);
     if (totalPage !== this.state.currentPage) {
+      console.log(totalPage, this.state.currentPage);
       this.setState(() => ({
         currentPage: this.state.currentPage + 1,
       }));
     }
+    console.log(totalPage, "on next");
   };
 
   prevPage = () => {
@@ -28,9 +30,10 @@ class Cart extends React.Component {
     let currency = this.props.selectedCurrency;
     let lastIndex = this.state.currentPage * this.state.perPage;
     let firstIndex = lastIndex - this.state.perPage;
-    items = items?.slice(firstIndex, lastIndex);
-    let totalPages = Math.round(this.props.cart?.length / this.state.perPage);
+    let products = items?.slice(firstIndex, lastIndex);
+    let totalPages = Math.ceil(this.props.cart?.length / this.state.perPage);
     let totalCost = currency + " " + totalPrice(items, currency);
+    console.log(products, "page");
     return (
       <>
         <div
@@ -43,8 +46,8 @@ class Cart extends React.Component {
           <div className="mini-cart-title">
             My bag {items?.length || 0} item
           </div>
-          {items ? (
-            items.map((item) => <CartItem data={item} />)
+          {products.length !== 0 ? (
+            products.map((item) => <CartItem data={item} />)
           ) : (
             <div className="center">
               <img src={EmptyCart} alt="empty cart" />
@@ -67,7 +70,6 @@ class Cart extends React.Component {
         ) : (
           ""
         )}
-
         <CartControl items={items} closeModal={this.props.closeModal} />
       </>
     );
@@ -79,4 +81,4 @@ const data = (state) => {
     cart: state.cart.items,
   };
 };
-export default connect(data)(Cart);
+export default connect(data)(MiniCart);

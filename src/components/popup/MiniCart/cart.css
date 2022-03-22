@@ -24,6 +24,7 @@
   color: white;
 }
 .mini-cart-img {
+  position: relative;
   width: 105px;
   height: 137px;
   overflow: hidden;
@@ -37,12 +38,10 @@
   bottom: 0;
   right: 0;
   width: 20px;
-  background-image: url("../../../assetes/Icons/trash-icon.png");
 }
 .item-info-cart {
   display: flex;
   width: 100%;
-
   padding: 10px 0;
   justify-content: space-between;
 }
@@ -77,6 +76,10 @@
   font-size: 11px;
   flex-direction: column;
 }
+.attributes-item span {
+  width: max-content;
+  padding: 1px 4px;
+}
 .mini-cart-gallery {
   width: 200px;
   height: 200px;
@@ -92,5 +95,14 @@
   border-radius: 50%;
   border: none;
   place-items: center;
+  height: max-content;
+}
+.mini-cart-control {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+.mini-cart-control .control-btn {
+  width: 100%;
   height: max-content;
 }

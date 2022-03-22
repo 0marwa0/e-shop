@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { postCart, fetchCart } from "./cartApi";
-export const getCart = createAsyncThunk("cart/getCart", fetchCart);
+import { postRequest, fetchRequest } from "./cartApi";
+export const getCart = createAsyncThunk("cart/getCart", fetchRequest);
 
 const cartSlice = createSlice({
   name: "cart",
@@ -11,12 +11,12 @@ const cartSlice = createSlice({
   reducers: {
     addProduct(state, action) {
       state.items.push(action.payload);
-      postCart(state, "my-cart");
+      postRequest(state, "cart");
     },
     removeProduct(state, action) {
       const index = state.items.findIndex((cart) => cart.id === action.payload);
       state.items.splice(index, 1);
-      postCart(state);
+      postRequest(state, "cart");
     },
     increase(state, action) {
       state.items.map((item) => {
@@ -26,7 +26,7 @@ const cartSlice = createSlice({
           return item;
         }
       });
-      postCart(state);
+      postRequest(state, "cart");
     },
     decrease(state, action) {
       state.items.map((item) => {
@@ -36,7 +36,7 @@ const cartSlice = createSlice({
           return item;
         }
       });
-      postCart(state);
+      postRequest(state, "cart");
     },
   },
 

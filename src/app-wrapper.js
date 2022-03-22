@@ -6,8 +6,8 @@ import { closeModal } from "./store/modalSlice";
 class index extends React.Component {
   componentDidMount() {
     document.addEventListener("scroll", this.onScroll, true);
-    if (!localStorage.getItem("my-cart")) {
-      localStorage.setItem("my-cart", JSON.stringify({ items: [] }));
+    if (!localStorage.getItem("cart")) {
+      localStorage.setItem("cart", JSON.stringify({ items: [] }));
     }
   }
   close = () => {

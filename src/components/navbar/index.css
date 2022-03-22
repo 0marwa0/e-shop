@@ -13,7 +13,6 @@
   padding: 20px 10px;
   font-weight: 400;
   cursor: pointer;
-  /* height: 60px; */
 }
 .activeTab {
   color: #5ece7b;
@@ -22,7 +21,7 @@
 .cart {
   position: relative;
 }
-.cartItem {
+.cart-num {
   width: 25px;
   position: absolute;
   height: 25px;

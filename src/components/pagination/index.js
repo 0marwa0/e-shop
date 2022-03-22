@@ -15,7 +15,7 @@ class index extends React.Component {
           className={leftAllowed ? "pagination-btn-active" : "pagination-btn"}
           onClick={(e) => {
             e.stopPropagation();
-            this.props.onNext();
+            this.props.onPrev();
           }}
         >
           <img src={LeftIcon} alt="icon" />
@@ -28,7 +28,7 @@ class index extends React.Component {
         <button
           className={rightAllowed ? "pagination-btn-active" : "pagination-btn"}
           onClick={(e) => {
-            this.props.onPrev();
+            this.props.onNext();
             e.stopPropagation();
           }}
         >

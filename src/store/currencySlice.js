@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { postRequest } from "./cartApi";
 const query = `
 {
   currencies{
@@ -27,7 +28,7 @@ const currencySlice = createSlice({
   reducers: {
     setCurrency(state, action) {
       state.selectedCurrency = action.payload;
-      localStorage.setItem("currency", action.payload);
+      postRequest(action.payload, "currency");
     },
   },
   extraReducers: {

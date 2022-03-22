@@ -52,7 +52,13 @@ const prodcutSlice = createSlice({
       state.loading = true;
     },
     [fetchProduct.fulfilled](state, action) {
-      state.product = action.payload;
+      let attributes = action.payload.attributes.map((product) => ({
+        ...product,
+        selected: product.items[0].value,
+      }));
+      let product = { ...action.payload, attributes };
+
+      state.product = product;
 
       state.loading = false;
     },

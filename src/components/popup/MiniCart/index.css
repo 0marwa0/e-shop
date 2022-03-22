@@ -16,29 +16,15 @@
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
 }
-.menu {
+.cart-modal {
   position: relative;
-  z-index: 99999999999999;
+  z-index: 9;
 }
-
-.item {
-  box-sizing: border-box;
-  cursor: pointer;
-  font-family: Roboto;
-  font-size: 20px;
-  position: relative;
-  text-align: center;
-  width: max-content;
-  transition: background-color 0.05s ease-in-out;
-  z-index: 1;
-}
-
-.open {
+.modal-content {
   position: absolute;
   top: 52px;
   right: 1px;
   width: max-content;
-  /* height: 490px; */
   background-color: white;
-  z-index: 9999999999999999;
+  z-index: 99;
 }

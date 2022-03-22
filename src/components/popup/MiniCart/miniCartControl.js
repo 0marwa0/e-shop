@@ -2,9 +2,10 @@ import React from "react";
 import Hoc from "../../Hoc";
 class index extends React.Component {
   render() {
+    console.log(this.props.items);
     return (
       <span className="mini-cart-btns">
-        {this.props.items ? (
+        {this.props.items.length !== 0 ? (
           <span
             className="cart-btn cart-btn-view"
             onClick={(e) => {

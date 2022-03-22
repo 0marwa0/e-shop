@@ -6,10 +6,9 @@ import { addProduct, getCart, removeProduct } from "../../store/cartSlice";
 import { connect } from "react-redux";
 import Attributes from "../../components/product/Attributes";
 import ProductGallery from "../../components/product/ProductGallery";
-import { getPrice, updatedSelectedValue } from "../../utlizeFun";
+import { getPrice } from "../../utlizeFun";
 class ProductInfo extends React.Component {
   state = {
-    validItem: false,
     attributes: [],
   };
   componentDidMount() {
@@ -18,53 +17,57 @@ class ProductInfo extends React.Component {
     this.props.getCart();
   }
 
-  validItems = (items) => {
-    let attributes = this.props.products.attributes;
+  updateAttributes = (items) => {
+    let savedAttributes = this.state.attributes.length;
+    let attributes =
+      savedAttributes === 0
+        ? this.props.products.attributes
+        : this.state.attributes;
+
+    let updateAttributes = attributes.map((item) => {
+      if (item.name === items.name) {
+        return { ...item, selected: items.value };
+      } else {
+        return item;
+      }
+    });
+
     this.setState(() => ({
-      attributes: updatedSelectedValue(attributes, items),
+      attributes: updateAttributes,
     }));
   };
   addItem = (item) => {
-    let { name, id, brand, prices, gallery } = item;
-    let attributes = this.props.products.attributes;
     let currentAttributes = this.state.attributes;
     let product = {
-      name,
-      id,
-      brand,
-      prices,
-      gallery,
+      ...item,
       count: 1,
       attributes: currentAttributes,
     };
-    if (attributes.length > 0) {
-      if (currentAttributes.length === attributes.length) {
-        this.props.addProduct(product);
-        //clear currentAttributes state
-      } else {
-        alert("please select attributes");
-      }
-    } else {
-      this.props.addProduct(product);
-      //clear currentAttributes state
-    }
+    this.props.addProduct(product);
+    this.setState({ attributes: [] });
   };
   render() {
-    let product = this.props.products;
-    let { id, brand, name, gallery, prices, description } = product;
-    let price = getPrice(prices, this.props.selectedCurrency);
+    let products = this.props.products ?? {};
+    let { id, brand, name, gallery, prices, description } = products;
     let inCart = this.props.cart?.some((item) => item.id === id);
-
+    let product = inCart
+      ? this.props.cart.filter((item) => item.id === id)[0]
+      : this.state.attributes.length !== 0
+      ? { ...this.props.products, attributes: this.state.attributes }
+      : this.props.products;
+    let price = getPrice(prices, this.props.selectedCurrency);
+    console.log(product);
     return (
       <div className="product-info-page">
         <ProductGallery gallery={gallery} />
         <div className="product-info">
           <h1>{brand}</h1>
           <h1>{name}</h1>
-          <Attributes validItems={this.validItems} product={product} />
-          <small>
-            Note: the fist attribute will be chosen, if you didn't choose any
-          </small>
+          <Attributes
+            updateAttributes={this.updateAttributes}
+            product={product}
+          />
+
           <div className="Attribute-holder">
             PRICE:
             <h1>{this.props.selectedCurrency + price}</h1>
@@ -89,7 +92,7 @@ class ProductInfo extends React.Component {
     );
   }
 }
-const data = (state) => {
+const state = (state) => {
   return {
     products: state.products.product,
     cart: state.cart.items,
@@ -105,4 +108,4 @@ const dispatch = (dispatch) => {
     removeProduct: (id) => dispatch(removeProduct(id)),
   };
 };
-export default connect(data, dispatch)(withRouter(ProductInfo));
+export default connect(state, dispatch)(withRouter(ProductInfo));

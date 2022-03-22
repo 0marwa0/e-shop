@@ -4,8 +4,8 @@ import { getPrice } from "../../utlizeFun";
 class index extends React.Component {
   render() {
     let { name, brand, attributes, prices } = this.props.item;
-    let price =
-      this.props.currency + " " + getPrice(prices, this.props.currency);
+    let currency = this.props.currency;
+    let price = currency + " " + getPrice(prices, currency);
     return (
       <>
         <div className="item-cart-info">
@@ -21,7 +21,7 @@ class index extends React.Component {
                   <div
                     className={
                       value.value === item.selected
-                        ? "box-selected"
+                        ? "box-selected selected-item"
                         : "box-container"
                     }
                     style={{

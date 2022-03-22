@@ -5,7 +5,9 @@
   margin-top: 6px;
 }
 .selected-item {
-  border: 4px solid rgb(161, 158, 158);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  border: 4px solid #defde6;
 }
 .app-container {
   margin: 0 50px;
