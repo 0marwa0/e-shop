@@ -10,19 +10,25 @@ class index extends React.Component {
       localStorage.setItem("my-cart", JSON.stringify({ items: [] }));
     }
   }
-  closeModal = (e) => {
+  close = () => {
     this.props.closeModal();
     this.props.hideDropdown();
   };
 
   onScroll = () => {
     if (window.scrollY > 0) {
-      this.closeModal();
+      this.close();
     }
   };
   render() {
     return (
-      <div onClick={() => this.closeModal} onScroll={this.onScroll()}>
+      <div
+        onClick={() => {
+          this.props.closeModal();
+          this.props.hideDropdown();
+        }}
+        onScroll={this.onScroll}
+      >
         <div className="app-container">
           <Navbar />
           {this.props.children}
@@ -37,7 +43,6 @@ const state = (state) => {
 const dispatch = (dispatch) => {
   return {
     hideDropdown: () => dispatch(closeDropdown()),
-
     closeModal: () => dispatch(closeModal()),
   };
 };
