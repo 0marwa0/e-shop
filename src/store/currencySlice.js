@@ -28,7 +28,7 @@ const currencySlice = createSlice({
   reducers: {
     setCurrency(state, action) {
       state.selectedCurrency = action.payload;
-      postRequest(action.payload, "currency");
+      localStorage.setItem("currency", action.payload);
     },
   },
   extraReducers: {

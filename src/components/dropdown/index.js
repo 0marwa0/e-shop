@@ -43,7 +43,7 @@ class DropDown extends React.Component {
           >
             {this.props.currencies.currencies.map((item) => (
               <div key={item.id} onClick={() => this.selectItem(item.symbol)}>
-                {item.symbol}
+                {item.symbol} {item.label}
               </div>
             ))}
           </div>

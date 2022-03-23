@@ -15,7 +15,6 @@ class index extends React.Component {
           {attributes.map((item) => (
             <div className="attr-holder">
               <span> {item.name}</span>
-
               <div className="flex">
                 {item.items.map((value) => (
                   <div

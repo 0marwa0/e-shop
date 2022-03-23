@@ -25,7 +25,7 @@ class index extends React.Component {
         {this.props.modal.showModal && (
           <div className="modal-content">
             <MiniCart
-              showDropdown={this.props.showModal}
+              showMiniCart={this.props.showModal}
               closeModal={this.props.closeModal}
             />
           </div>

@@ -1,6 +1,7 @@
 .card-holder {
-  width: 386px;
-  height: 404px;
+  width: 94%;
+  max-width: 400px;
+  height: 414px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -14,9 +15,10 @@
 .card-holder:hover .icon-cart-holder {
   display: block;
 }
+
 .card-image {
-  width: 380px;
-  height: 360px;
+  width: 100%;
+  height: 370px;
   border: none;
   display: grid;
   place-items: center;
